@@ -44,7 +44,7 @@ Robot constantly takes readings from the ToF sensor to detect whether there is a
    > - A lot of hot glue 
    > - As a result, the car could not go straight or turn properly
 
-   ![proto1](proto1_medium.jpeg)  ![proto1](proto1test.gif)
+   ![proto1](media/pictures/proto1_medium.jpeg)  ![proto1](media/GIF/proto1test.gif)
 
 ----------------------------------
 
@@ -56,7 +56,7 @@ Robot constantly takes readings from the ToF sensor to detect whether there is a
    > - More consistent in going straight but struggled turning
    > - Was rather wide and bulky
 
-   ![proto2](proto2_medium.jpeg). ![proto2](proto2test.gif)
+   ![proto2](media/pictures/proto2_medium.jpeg). ![proto2](media/GIF/proto2test.gif)
 
 ----------------------------------
 
