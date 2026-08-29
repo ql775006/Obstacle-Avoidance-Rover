@@ -88,7 +88,10 @@ Robot constantly takes readings from the ToF sensor to detect whether there is a
 ![proto4_180](media/GIF/proto4_180.gif)
 
 ----------------------------------
-5. Code for Obstacle avoidance
-   > - Rover goes straight until ToF sensor detects something is in front (in loop)
-   > - Loop calls function to scan
+5. Code for Obstacle avoidance (Finish)
+   > - Rover goes straight until ToF sensor detects something is in front (function called in loop)
+   > - Function calls servo_scan function, if no path, return and scan the other direction. If both directions have no available path, call turn_around function.
+
+----------------------------------
+
   
