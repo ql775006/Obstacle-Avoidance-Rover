@@ -1,0 +1,325 @@
+#include <Adafruit_VL53L0X.h> 
+#include <Servo.h> 
+#include <Wire.h> 
+ 
+Servo clanker; 
+
+// Motor A pins
+int INA1 = 3; 
+int INA2 = 5; 
+
+// Motor B pins
+int INB1 = 6; 
+int INB2 = 11; 
+
+// General variables
+int currentTime; 
+int duration; 
+
+// Controls whether obstacle detection is being used
+bool detect_obs = false; 
+
+// Keeps track of which direction to scan
+bool right = true; 
+
+// Tells the robot if it needs to turn around
+bool turn_around = false; 
+
+// Motor speed variables
+int currentSpeed1 = 0; 
+int currentSpeed2 = 0; 
+
+// Used to keep track of when the motor speed was last changed
+unsigned long lastStepTime = 0; 
+
+// Create the VL53L0X distance sensor
+Adafruit_VL53L0X lox = Adafruit_VL53L0X(); 
+
+
+// Move forward at a constant speed
+void go_forward1(bool detect_obs) 
+{ 
+    // If there is no obstacle, run both motors forward
+    if (!detect_obs) 
+    { 
+        analogWrite(11, 235); 
+        analogWrite(5, 235); 
+    } 
+    else 
+    { 
+        // Stop both motors when an obstacle is detected
+        analogWrite(11, 0); 
+        analogWrite(5, 0); 
+
+        // Scan one side of the robot
+        bool cont1 = servo_scan(!right, turn_around); 
+        
+        // If the scan says to continue
+        if (cont1) 
+        { 
+            // Scan the other side
+            servo_scan(right, turn_around); 
+ 
+            // If both sides are blocked, turn around
+            if (turn_around) 
+            { 
+                back_up(600); 
+                go_right(350); 
+            } 
+        } 
+        else 
+        { 
+            return; 
+        } 
+    } 
+} 
+
+
+// Gradually increase motor speed while moving forward
+void go_forward2(int duration) 
+{ 
+    currentSpeed1 = 0; 
+    currentSpeed2 = 0; 
+
+    // Reset the timer used for speed ramping
+    lastStepTime = millis(); 
+ 
+    unsigned long startTime = millis(); 
+
+    // Determines how often the speed increases
+    unsigned long stepInterval = duration / 5; 
+ 
+    while (millis() - startTime < duration) 
+    { 
+        // Increase speed until the motors reach maximum speed
+        if (currentSpeed1 < 255 || currentSpeed2 < 255) 
+        { 
+            if (millis() - lastStepTime >= stepInterval) 
+            { 
+                currentSpeed1 += 51; 
+                currentSpeed2 += 51; 
+ 
+                // Limit motor speed
+                if (currentSpeed1 > 215)
+                    currentSpeed1 = 215; 
+ 
+                if (currentSpeed2 > 215)
+                    currentSpeed2 = 215; 
+ 
+                lastStepTime = millis(); 
+            } 
+        } 
+ 
+        analogWrite(11, currentSpeed1); 
+        analogWrite(5, currentSpeed2); 
+    } 
+
+    // Stop motors after the specified duration
+    analogWrite(11, 0); 
+    analogWrite(5, 0); 
+} 
+
+
+// Turn the robot right
+void go_right(int duration) 
+{ 
+    digitalWrite(12, HIGH); 
+ 
+    unsigned long startTime = millis(); 
+ 
+    while (millis() - startTime < duration) 
+    { 
+        // Left motor forward
+        analogWrite(6, 0); 
+        analogWrite(11, 215); 
+ 
+        // Right motor backward
+        analogWrite(3, 215); 
+        analogWrite(5, 0); 
+    } 
+
+    // Stop all motors
+    analogWrite(6, 0); 
+    analogWrite(11, 0); 
+    analogWrite(3, 0); 
+    analogWrite(5, 0); 
+   
+    return; 
+} 
+
+
+// Turn the robot left
+void go_left(int duration) 
+{ 
+    digitalWrite(12, HIGH); 
+ 
+    unsigned long startTime = millis(); 
+ 
+    while (millis() - startTime < duration) 
+    { 
+        // Motor directions reversed compared to right turn
+        analogWrite(6, 215); 
+        analogWrite(11, 0); 
+ 
+        analogWrite(3, 0); 
+        analogWrite(5, 215); 
+    } 
+
+    // Stop all motors
+    analogWrite(6, 0); 
+    analogWrite(11, 0); 
+    analogWrite(3, 0); 
+    analogWrite(5, 0); 
+ 
+    return; 
+} 
+
+
+// Scan the area using the servo-mounted distance sensor
+bool servo_scan(bool right, bool &turn_around) 
+{ 
+    VL53L0X_RangingMeasurementData_t measure; 
+
+    // Take a distance measurement
+    lox.rangingTest(&measure, false); 
+
+    // Center the servo before scanning
+    clanker.write(90); 
+     
+    // Scan toward the right
+    if (!right) 
+    { 
+        for (int i = 90; i <= 160; i+=4) 
+        { 
+            // Continue scanning if an obstacle is closer than 375 mm
+            if ((measure.RangeMilliMeter)<375) 
+            { 
+                clanker.write(i); 
+                delay(10); 
+
+                // Take another distance measurement
+                lox.rangingTest(&measure, false); 
+            } 
+            else 
+            { 
+                // Space is available, so turn right
+                go_right(100); 
+                return false; 
+            } 
+        } 
+    } 
+    else 
+    { 
+        // Scan toward the left
+        for (int i = 90; i >= 30; i-=4) 
+        { 
+            // Continue scanning if an obstacle is closer than 375 mm
+            if ((measure.RangeMilliMeter)<375) 
+            { 
+                clanker.write(i); 
+                delay(10); 
+
+                // Take another distance measurement
+                lox.rangingTest(&measure, false); 
+            } 
+            else 
+            { 
+                // Space is available, so turn left
+                go_left(100); 
+                return false; 
+            } 
+        }  
+
+        // Both directions were blocked
+        turn_around = true; 
+    } 
+ 
+    return true; 
+} 
+
+
+// Move the robot backward
+void back_up(int duration) 
+{ 
+    digitalWrite(12, HIGH); 
+ 
+    unsigned long startTime = millis(); 
+ 
+    while (millis() - startTime < duration) 
+    { 
+        // Reverse both motors
+        analogWrite(6, 150); 
+        analogWrite(11, 0); 
+ 
+        analogWrite(3, 150); 
+        analogWrite(5, 0); 
+    } 
+
+    // Stop all motors
+    analogWrite(6, 0); 
+    analogWrite(11, 0); 
+    analogWrite(3, 0); 
+    analogWrite(5, 0); 
+ 
+    return; 
+} 
+
+
+void setup() 
+{ 
+    // Set motor pins as outputs
+    pinMode(3, OUTPUT); 
+    pinMode(5, OUTPUT); 
+    pinMode(6, OUTPUT); 
+    pinMode(11, OUTPUT); 
+ 
+    // Motor driver control pin
+    pinMode(12, OUTPUT); 
+     
+    // Attach the servo to Arduino pin 9
+    clanker.attach(9); 
+
+    // Start I2C communication for the VL53L0X
+    Wire.begin(); 
+     
+    delay(2000); 
+     
+    // Enable the motor driver
+    digitalWrite(12, HIGH); 
+
+    // Start the VL53L0X sensor
+    if (!lox.begin())  
+    { 
+        Serial.print("Sensor not found"); 
+        while (1); 
+    } 
+} 
+
+
+void loop() 
+{ 
+    VL53L0X_RangingMeasurementData_t measure; 
+
+    // Get the current distance measurement
+    lox.rangingTest(&measure, false); 
+ 
+    // If nothing is detected within 500 mm
+    if ((measure.RangeMilliMeter)>500) 
+    { 
+        detect_obs = false; 
+
+        // Keep the sensor facing forward
+        clanker.write(90); 
+
+        // Continue moving forward
+        go_forward1(detect_obs); 
+    } 
+    else 
+    { 
+        // Obstacle detected within 500 mm
+        detect_obs = true; 
+
+        // Stop and scan for a path
+        go_forward1(detect_obs); 
+    } 
+}
