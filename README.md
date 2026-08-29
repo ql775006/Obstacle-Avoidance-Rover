@@ -41,7 +41,26 @@ Robot constantly takes readings from the ToF sensor to detect whether there is a
    > - Good for gauging rough dimensions
    > - Was difficult to maintain consistent contact between the wheels and floor
    > - Cardboard was too flimsy, offset was noticeable
+   > - A lot of hot glue 
    > - As a result, the car could not go straight or turn properly
+
+   ![proto1](proto1_medium.jpeg)  ![proto1](proto1test.gif)
+
+----------------------------------
+
+2. Prototype #2 (plywood chassis)
+   > - First prototype to feature a plywood chassis carved from 3mm plywood sheets
+   > - Less hot glue and used super glue for less of a mess and stronger bonding
+   > - Added plywood supports at the bottom for more precise mounting
+   > - Better alignment but there was still a tiny offset
+   > - More consistent in going straight but struggled turning
+   > - Was rather wide and bulky
+
+   ![proto2](proto2_medium.jpeg). ![proto2](proto2test.gif)
+
+----------------------------------
+
+3. Prototype #3
    
    
   
