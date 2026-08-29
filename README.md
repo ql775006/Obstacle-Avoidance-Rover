@@ -86,5 +86,9 @@ Robot constantly takes readings from the ToF sensor to detect whether there is a
 
 ![proto4](media/pictures/proto4_medium.jpeg). ![proto4](media/pictures/proto4(2)_medium.jpeg)
 ![proto4_180](media/GIF/proto4_180.gif)
-  
+
+----------------------------------
+5. Code for Obstacle avoidance
+   > - Rover goes straight until ToF sensor detects something is in front (in loop)
+   > - Loop calls function to scan
   
