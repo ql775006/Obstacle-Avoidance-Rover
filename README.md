@@ -67,8 +67,7 @@ Robot constantly takes readings from the ToF sensor to detect whether there is a
    > -  More precise fabrication gave more consistent results
    > -  Adjusted code so it made more turns in steps and saw more consistent results, may have something to do with less accumulated friction.
    > -  Installed a little tower with a small platform raised with wooden dowels (superglued), the servo is screw mounted on the small platform for basic testing
-   ![proto3](media/pictures/proto4_medium.jpeg)    ![proto3](media/pictures/proto4(2)_medium.jpeg)
-![proto3](media/GIF/proto3test.gif)
+![proto3](media/pictures/Proto3.jpeg)   ![proto3](media/GIF/proto3test.gif)
    
    
   
