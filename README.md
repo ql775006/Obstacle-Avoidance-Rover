@@ -28,6 +28,8 @@
 - DRV8833 Driver module
 - Buck Converter
 - 7.4 LiPo 2s 35C
+- Hobby Gearbox DC motor
+- N20 MetalGearbox motors
 
 ## Software
 - Arduino IDE
@@ -57,6 +59,7 @@ Robot constantly takes readings from the ToF sensor to detect whether there is a
    > - Better alignment but there was still a tiny offset
    > - More consistent in going straight but struggled turning
    > - Was rather wide and bulky
+   > - Added Rubber Rings to the wheels for more friction
 
    ![proto2](media/pictures/proto2_medium.jpeg). ![proto2](media/GIF/proto2test.gif)
 
@@ -67,6 +70,7 @@ Robot constantly takes readings from the ToF sensor to detect whether there is a
    > -  More precise fabrication gave more consistent results
    > -  Adjusted code so it made more turns in steps and saw more consistent results, may have something to do with less accumulated friction.
    > -  Installed a little tower with a small platform raised with wooden dowels (superglued), the servo is screw mounted on the small platform for basic testing
+   > -  Added some weight towards the back. This would put more traction towards the back driver motors for cleaning turns
 ![proto3](media/pictures/Proto3.jpeg)   ![proto3](media/GIF/proto3test.gif)
 
 
@@ -76,6 +80,11 @@ Robot constantly takes readings from the ToF sensor to detect whether there is a
 
    > - Base dimensions even smaller
    > - Swapped from yellow gearbox hobby dc motors to N20 metal gearbox motors for more torque
-   > - 
+   > - New wheels had better friction and traction with the ground, rings were not needed
+   > - Screw mounted the N20 and added a 3mm steel rod to serve as a front dead axle to mount 2 front wheels.
+   > - Able to perform a clean 180 turn
+
+![proto4](media/pictures/proto4_medium.jpeg). ![proto4](media/pictures/proto4(2)_medium.jpeg)
+![proto4_180](media/GIF/proto4_180.gif)
   
   
