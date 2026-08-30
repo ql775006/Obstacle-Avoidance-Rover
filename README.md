@@ -94,4 +94,9 @@ Robot constantly takes readings from the ToF sensor to detect whether there is a
 
 ----------------------------------
 
+## Challenges and Solutions
+1. Finding the right, readily available, material for chassis
+   > First prototype used carboard, very flimsy and vulnernable to warping. Swapped to 3mm plywood, carved out the base from sheets. Thin, light, and significantly more sturdy than cardboard.
+2. 
+   
   
