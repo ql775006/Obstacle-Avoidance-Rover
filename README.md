@@ -96,7 +96,30 @@ Robot constantly takes readings from the ToF sensor to detect whether there is a
 
 ## Challenges and Solutions
 1. Finding the right, readily available, material for chassis
-   > First prototype used carboard, very flimsy and vulnernable to warping. Swapped to 3mm plywood, carved out the base from sheets. Thin, light, and significantly more sturdy than cardboard.
-2. 
-   
+   > First prototype used carboard, very flimsy and vulnernable to warping. Swapped to 3mm plywood, carved out the base from sheets. Thin, light, and significantly more sturdier than cardboard.
+2. Precise mounting of the gearbox motors
+   > Because we are talking about cheap plastic gearbox motors, even slight offsets (misalignment, one slightly raised) can cause the robot to lean rather than going straight.
+   > Tuned one motor to drive harder due to manufacture differences.
+   > Eventually swapped to metal gearbox motors
+3. Using more superglue over hot glue
+   > When I swapped to my plywood chassis, I also purchased superglue for significantly stronger bonding while also having less of mess.
+4. Increase traction
+   > Gearbox motors had poor material for the wheels, which reduced the overall traction.
+   > Initially, to resolve this issue, I added silicon bands on each wheel to increase the needed friction.
+   > Eventually purchased better wheels so I did not have to perform any external modifications.
+5. Reduce friction while turning
+   > For turning, I decided to do a turn in place differential drive. However, when turning, all 4 wheels rub against the ground to the point where it makes noise produces poor results.
+   > To resolve this issue, I added more weight to the back so the driver wheels get more traction. Front wheels still have enough traction for the car to travel straight.
+
+## What I learned
+- Learned rapid prototyping and mechanical fabrication with cardboard and other readily available materials.
+- Inserting shims to mitigate mechanical offsets to improve overall stability
+- Tuning is important because of manufacturing differences, this is more pronounced in plastic gearbox motors.
+- How to use a DRV8825 motor driver to drive DC motors.
+
+## What would I add for the future?
+- Designing a 3d printed chassis for a less flimsy and custom structure
+- Adding obstacle avoidance sensors to the side to cover blindspots 
+- Learning raspberry pi to integrate computer vision (smart rover)
+- 
   
